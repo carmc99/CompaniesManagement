@@ -1,5 +1,6 @@
 <?php
 
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use App\Employee;
 
@@ -18,6 +19,9 @@ class EmployeeTableSeed extends Seeder
         $employee->email = "arturo.gonzales@nafanto.com";
         $employee->phone = "57 324453456";
         $employee->company_id = 0;
+        $employee->created_at = Carbon::now();
+        $employee->updated_at = Carbon::now();
+        $employee->saveOrFail();
 
         $employee = new Employee();
         $employee->first_name = "Vannesa";
@@ -25,5 +29,8 @@ class EmployeeTableSeed extends Seeder
         $employee->email = "vanessa.toro@nafanto.com";
         $employee->phone = "57 324435364";
         $employee->company_id = 0;
+        $employee->created_at = Carbon::now();
+        $employee->updated_at = Carbon::now();
+        $employee->saveOrFail();
     }
 }

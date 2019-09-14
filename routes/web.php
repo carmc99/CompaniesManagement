@@ -11,10 +11,17 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Auth::routes();
-
 Route::get('/home', 'HomeController@index')->name('home');
+
+// Autentificacion
+Route::get("/", ["as" => "login.show", "uses"=>"Auth\LoginController@showLoginForm"]);
+Route::post("/", ["as" => "login", "uses"=>"Auth\LoginController@login"]);
+Route::post("logout", ["as" => "logout", "uses"=>"Auth\LoginController@logout"]);
+
+
+
+// Arquitectura REST
+// Empleado
+Route::resource('employee', 'EmployeeController');
+// Empresa
+Route::resource('company', 'CompanyController');
