@@ -15,9 +15,9 @@ class CreateEmployeesTable extends Migration
     {
         Schema::create('employees', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedInteger('company_id');
-            $table->foreign('company_id')
-                ->references('id')->on('companies')
+            $table->string('company_name',200)->nullable('false');
+            $table->foreign('company_name')
+                ->references('name')->on('companies')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
             $table->string('first_name')->nullable(false);

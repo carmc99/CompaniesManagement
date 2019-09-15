@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Company;
 use App\Employee;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -15,7 +16,8 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        return view('employee.index');
+        $employees = Employee::orderBy('ID', 'DESC')->paginate(10);
+        return view('employee.index', compact('employees'));
     }
 
     /**
@@ -25,6 +27,7 @@ class EmployeeController extends Controller
      */
     public function create()
     {
+
         return view('employee.register');
     }
 
@@ -34,16 +37,16 @@ class EmployeeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $id)
+    public function store(Request $request)
     {
-        $employee = Employee::findOrfail($id);
+
 
         $this->validate($request, [
-            'email' => 'min:3|max:50|unique:employees,email,' . $employee->id,
+            #'email' => 'min:3|max:50|unique:employees,email,' . $employee->id,
             'last_name' => 'required|min:1|max:20',
             'first_name' => 'required|min:3|max:20',
-            'phone' => 'min:3|max:50',
-            'company' => 'min:3|max:20',
+            'phone' => 'max:50',
+            'company' => 'max:200',
         ]);
 
         $employee = new Employee();
@@ -51,12 +54,13 @@ class EmployeeController extends Controller
         $employee->last_name = $request->input('last_name');
         $employee->email = $request->input('email');
         $employee->phone = $request->input('phone');
-        $employee->company_id = $request->input('company');
+        $employee->company_name = $request->input('company_name');
         $employee->created_at = Carbon::now();
         $employee->updated_at = Carbon::now();
         $employee->saveOrFail();
 
-        return redirect()->action('EmployeeController@index')->with('message', 'Registro ingresado exitosamente');
+        $employees = Employee::orderBy('ID', 'DESC')->paginate(10);
+        return redirect()->back()->with('message', 'Registro ingresado exitosamente');
     }
 
     /**
@@ -80,7 +84,8 @@ class EmployeeController extends Controller
     public function edit($id)
     {
         $employee = Employee::findOrfail($id);
-        return view('employee.edit', compact('employee'));
+        $companies = Company::select('name')->orderBy('name', 'desc')->pluck('name');
+        return view('employee.edit', compact('employee', 'companies'));
     }
 
     /**
@@ -92,7 +97,26 @@ class EmployeeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $employee = Employee::findOrfail($id);
+
+        $this->validate($request, [
+           # 'email' => 'min:3|max:50|unique:employees,email,' . $employee->id,
+            'last_name' => 'min:1|max:20',
+            'first_name' => 'min:3|max:20',
+            'phone' => 'max:50',
+            'company_name' => 'max:200',
+        ]);
+
+        $employee->first_name = $request->input('first_name');
+        $employee->last_name = $request->input('last_name');
+        $employee->email = $request->input('email');
+        $employee->phone = $request->input('phone');
+        $employee->company_name = $request->input('company_name');
+        $employee->updated_at = Carbon::now();
+        $employee->update();
+
+        $employees = Employee::orderBy('ID', 'DESC')->paginate(10);
+        return redirect()->back()->with('message', 'Se actualizo el registro del empleado: ' . $employee->first_name . " " . $employee->last_name . ' correctamente');
     }
 
     /**
@@ -103,6 +127,7 @@ class EmployeeController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Employee::findOrfail($id)->delete();
+        return redirect()->back();
     }
 }

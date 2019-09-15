@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Company;
+use App\Employee;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
@@ -15,7 +16,8 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        return view('company.index');
+        $companies = Company::orderBy('ID', 'DESC')->paginate(10);
+        return view('company.index', compact('companies'));
     }
 
     /**
@@ -31,21 +33,21 @@ class CompanyController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $id)
+    public function store(Request $request)
     {
+
         //$company = Company::findOrfail($id);
 
         $this->validate($request, [
-            'name' => 'required|min:3|max:255',
+            'name' => 'required|min:2|max:200',
             #'name' => 'min:3|max:255|unique:companies,name,' . $company->id,
-            'description' => 'min:1|max:2000',
-            'phone' => 'min:3|max:20',
-            'web_page' => 'min:3|max:20',
-            'email' => 'min:3|max:20',
-            'image' => 'min:3|max:20',
+            'description' => 'max:2000',
+            'phone' => 'required|min:3|max:30',
+            'web_page' => 'max:50',
+            'email' => 'max:20',
 
         ]);
 
@@ -55,58 +57,84 @@ class CompanyController extends Controller
         $company->phone = $request->input('phone');
         $company->web_page = $request->input('web_page');
         $company->email = $request->input('email');
-        $company->image = $request->input('image');
+        #$company->image = $request->input('image');
         $company->created_at = Carbon::now();
         $company->updated_at = Carbon::now();
-        $company->saveOrFail();
+        $company->save();
 
-        return redirect()->action('CompanyController@index', compact('company'))->with('message', 'Registro guardado exitosamente!');
+        $companies = Company::orderBy('ID', 'DESC')->paginate(10);
+        return redirect()->action('CompanyController@index', compact('companies'))->with('message', 'Se ha registrado una nueva empresa ' . $company->name);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
         $company = Company::findOrfail($id);
-        return view('company.show', compact('company'));
+        $employees = Employee::where('company_name', $company->name)
+                ->orderBy('id', 'desc')
+                ->paginate(10);
+        return view('company.show', compact('company', 'employees'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
         $company = Company::findOrfail($id);
-        return view('company.edit', compact(company));
+        return view('company.edit', compact('company'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        //
+        $company = Company::findOrfail($id);
+
+        $this->validate($request, [
+            'name' => 'required|min:2|max:200',
+            #'name' => 'min:3|max:255|unique:companies,name,' . $company->id,
+            'description' => 'max:2000',
+            'phone' => 'required|min:3|max:30',
+            'web_page' => 'max:50',
+            'email' => 'max:20',
+
+        ]);
+
+        $company->name = $request->input('name');
+        $company->description = $request->input('description');
+        $company->phone = $request->input('phone');
+        $company->web_page = $request->input('web_page');
+        $company->email = $request->input('email');
+        #$company->image = $request->input('image');
+        $company->updated_at = Carbon::now();
+        $company->update();
+
+        return redirect()->action('CompanyController@index', compact('companies'))->with('message', 'Se actualizo el registro ' . $company->name . ' correctamente');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        //
+        Company::findOrfail($id)->delete();
+        return redirect()->back();
     }
 }

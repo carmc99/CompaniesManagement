@@ -1,24 +1,17 @@
-@extends('layouts.app')
-
-@section('content')
-
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">Dashboard</div>
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
+@extends('layouts.app') @section('title','Inicio') @section('title-page-header',
+'Dashboard') @section('content')
+    <div class="row">
+        @include('layouts.stats')
+    </div>
+    <div class="row">
+        <div class="div.col-xl-12 col-md-12 mb-12">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <div class="text-center">
+                        <h6 class="m-0 font-weight-bold text-primary">Entradas recientes</h6>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
-</div>
-
 @endsection

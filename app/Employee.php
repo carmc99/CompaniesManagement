@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Employee extends Model
 {
-    public function Company()
+    public function company()
     {
         return $this->belongsTo('App\Company');
     }

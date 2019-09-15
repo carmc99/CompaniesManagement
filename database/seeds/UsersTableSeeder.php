@@ -19,7 +19,7 @@ class UsersTableSeeder extends Seeder
         $user->password = bcrypt('password');
         $user->created_at = Carbon::now();
         $user->updated_at = Carbon::now();
-        $user->saveOrFail();
+        $user->save();
 
         $user = new User();
         $user->name = "Carlos";
@@ -27,6 +27,6 @@ class UsersTableSeeder extends Seeder
         $user->password = bcrypt('password');
         $user->created_at = Carbon::now();
         $user->updated_at = Carbon::now();
-        $user->saveOrFail();
+        $user->save();
     }
 }
