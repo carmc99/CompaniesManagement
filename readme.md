@@ -22,6 +22,10 @@
  MAIL_USERNAME=definir usuarios suministrado en mailtrap
  MAIL_PASSWORD=contraseña
  
+ 9. Datos de ingreso:
+  - admin@admin.com
+  - password
+ 
  ## Funcionalidades:
  - Autentificacion modulo
  - CRUD compañias y empleados
