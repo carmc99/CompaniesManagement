@@ -16,7 +16,7 @@
 
         <!-- Icon -->
         <div class="fadeIn first">
-            <img src="{{ asset('/img/logo.jpg') }}" id="icon" alt="logo"/>
+            <img src="{{ asset('/images/logo.png') }}" id="icon" alt="logo"/>
             <h3>{{ config('app.name', 'Wiki') }}</h3>
         </div>
 
@@ -25,7 +25,7 @@
             {!! csrf_field() !!}
 
             <div class="form-group {{ $errors->has('email') ? 'has-error' : ''}} ">
-                <input value="{{old('email')}}" type="text" id="email" class="fadeIn second" name="email" placeholder="email">
+                <input value="{{old('email')}}" type="text" id="email" class="fadeIn second" name="email" placeholder="Email">
                 <div class="col-md-12">
                     {!! $errors->first('email', '<span class="text-danger">:message</span>') !!}
                 </div>

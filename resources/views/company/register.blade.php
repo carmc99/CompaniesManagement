@@ -4,7 +4,7 @@
 
 @section('content')
                 <div class="card-body">
-                    <form class="form-horizontal" method="post" action="{{action('CompanyController@store')}}">
+                    <form class="form-horizontal" method="post" action="{{action('CompanyController@store')}}" accept-charset="UTF-8" enctype="multipart/form-data">
                         @csrf
 
                         <label for="input-title" class="control-label">
@@ -41,6 +41,13 @@
                                     <input type="email" class="form-control" id="email" name="email">
                                 </div>
                             </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <label for="input-image" class="control-label">Logo:</label>
+                                <div class="col-md-9">
+                                    <input type="file" class="form-control" name="image" id="image">
+                                </div>
+                            </li>
+
                  
                         </ul>
         

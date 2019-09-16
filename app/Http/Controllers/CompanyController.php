@@ -40,7 +40,7 @@ class CompanyController extends Controller
      */
     public function store(Request $request)
     {
-
+        $publicPath = public_path();    // Ruta publica de almacenamiento de imagenes
         //$company = Company::findOrfail($id);
 
         $this->validate($request, [
@@ -52,17 +52,20 @@ class CompanyController extends Controller
             'email' => 'max:200',
 
         ]);
+        $image = $request->file('image');
+        $imageName = $image->getClientOriginalName();
 
         $company = new Company();
         $company->name = $request->input('name');
         $company->description = $request->input('description');
         $company->phone = $request->input('phone');
         $company->web_page = $request->input('web_page');
+        $company->image = $imageName;
         $company->email = $request->input('email');
-        #$company->image = $request->input('image');
         $company->created_at = Carbon::now();
         $company->updated_at = Carbon::now();
         $company->save();
+        \Storage::disk('local')->put($imageName,  \File::get($image));
         Mail::to('newuser@example.com')->send(new Mailtrap());
         $companies = Company::orderBy('ID', 'DESC')->paginate(10);
         return redirect()->action('CompanyController@index', compact('companies'))->with('message', 'Se ha registrado una nueva empresa ' . $company->name);

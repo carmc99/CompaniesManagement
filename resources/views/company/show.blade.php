@@ -22,8 +22,12 @@
                 <h5 class="mb-1 font-weight-bold text-primary">{{$company->name}}</h5>
                 <small>Telefono: {{$company->phone}}</small>
             </div>
+            @if($company->image)
+                <img src="{{ asset('images/'. $company->image) }}" alt="logo" width="80" height="80">
+            @endif
             <p class="mb-1">{{$company->description}}</p>
             <small>{{$company->email}}</small>
+
         </a>
     </div>
     <hr>

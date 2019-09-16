@@ -36,7 +36,6 @@
                         <th>Email</th>
                         <th>Telefono</th>
                         <th>Web</th>
-                        <th>Logo</th>
                         <th>Acciones</th>
                     </tr>
                     </thead>
@@ -48,7 +47,6 @@
                         <td>{{$company->email}}</td>
                         <td>{{$company->phone}}</td>
                         <td>{{$company->web_page}}</td>
-                        <td>{{$company->image}}</td>
                         <td class="d-inline-flex p-0"><a href="{{ action('CompanyController@edit', $company->id) }}" class="btn btn-warning">Editar</a>
                             <form action="{{ action('CompanyController@destroy', $company->id) }}" method="post">
                                 @csrf
