@@ -1,5 +1,6 @@
 <?php
-
+use App\Mail\Mailtrap;
+use Illuminate\Support\Facades\Mail;
 /*
 |--------------------------------------------------------------------------
 | Web Routes

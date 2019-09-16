@@ -39,7 +39,7 @@
                         <td>{{$employee->last_name}}</td>
                         <td>{{$employee->email}}</td>
                         <td>{{$employee->phone}}</td>
-                        <td>{{$employee->company}}</td>
+                        <td>{{$employee->company_name}}</td>
                         <td class="d-inline-flex p-0"><a href="{{ action('EmployeeController@edit', $employee->id) }}" class="btn btn-warning">Editar</a>
                             <form action="{{ action('EmployeeController@destroy', $employee->id) }}" method="POST">
                                 {{method_field('DELETE')}}

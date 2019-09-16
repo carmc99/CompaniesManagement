@@ -97,13 +97,14 @@ class EmployeeController extends Controller
      */
     public function update(Request $request, $id)
     {
+
         $employee = Employee::findOrfail($id);
 
         $this->validate($request, [
            # 'email' => 'min:3|max:50|unique:employees,email,' . $employee->id,
-            'last_name' => 'min:1|max:20',
-            'first_name' => 'min:3|max:20',
-            'phone' => 'max:50',
+            'last_name' => 'min:1|max:60',
+            'first_name' => 'min:3|max:60',
+            'phone' => 'max:200',
             'company_name' => 'max:200',
         ]);
 
@@ -116,7 +117,7 @@ class EmployeeController extends Controller
         $employee->update();
 
         $employees = Employee::orderBy('ID', 'DESC')->paginate(10);
-        return redirect()->back()->with('message', 'Se actualizo el registro del empleado: ' . $employee->first_name . " " . $employee->last_name . ' correctamente');
+        return redirect()->action('CompanyController@index')->with('message', 'Se actualizo el registro del empleado: ' . $employee->first_name . " " . $employee->last_name . ' correctamente');
     }
 
     /**

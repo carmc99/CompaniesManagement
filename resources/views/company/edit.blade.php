@@ -8,7 +8,7 @@
             @csrf
             {!! method_field('put') !!}
             <label for="input-title" class="control-label">
-                <h5 class="m-0 font-weight-bold text-primary">Registro nueva empresa:</h5>
+                <h5 class="m-0 font-weight-bold text-primary">Actualizar empresa: {{ $company->name }} </h5>
             </label>
             <ul class="list-group">
                 <li class="list-group-item d-flex justify-content-between align-items-center">

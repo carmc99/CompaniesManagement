@@ -6,6 +6,8 @@ use App\Company;
 use App\Employee;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use App\Mail\Mailtrap;
+use Illuminate\Support\Facades\Mail;
 
 class CompanyController extends Controller
 {
@@ -45,9 +47,9 @@ class CompanyController extends Controller
             'name' => 'required|min:2|max:200',
             #'name' => 'min:3|max:255|unique:companies,name,' . $company->id,
             'description' => 'max:2000',
-            'phone' => 'required|min:3|max:30',
-            'web_page' => 'max:50',
-            'email' => 'max:20',
+            'phone' => 'required|min:3|max:200',
+            'web_page' => 'max:200',
+            'email' => 'max:200',
 
         ]);
 
@@ -61,7 +63,7 @@ class CompanyController extends Controller
         $company->created_at = Carbon::now();
         $company->updated_at = Carbon::now();
         $company->save();
-
+        Mail::to('newuser@example.com')->send(new Mailtrap());
         $companies = Company::orderBy('ID', 'DESC')->paginate(10);
         return redirect()->action('CompanyController@index', compact('companies'))->with('message', 'Se ha registrado una nueva empresa ' . $company->name);
     }
@@ -108,9 +110,9 @@ class CompanyController extends Controller
             'name' => 'required|min:2|max:200',
             #'name' => 'min:3|max:255|unique:companies,name,' . $company->id,
             'description' => 'max:2000',
-            'phone' => 'required|min:3|max:30',
-            'web_page' => 'max:50',
-            'email' => 'max:20',
+            'phone' => 'required|min:3|max:200',
+            'web_page' => 'max:200',
+            'email' => 'max:200',
 
         ]);
 
